@@ -1,19 +1,18 @@
-import requests
+from openai import OpenAI
+client = OpenAI()
 
-base_url = "https://s2yunseul.github.io/yunseul/%EA%B3%A4%ED%83%80%EB%B2%85%EC%8A%A4/"
+response = client.chat.completions.create(
+    model="o1-preview",
+    messages=[
+        {
+            "role": "user", 
+            "content": "멋진 랜딩페이지 제작"
+        }
+    ]
+)
 
-html = requests.get(base_url+"index.html").text
 
-css = requests.get(base_url+"style.css").text
+f = open("landing_page.txt", "w")
+f.write(response.choices[0].message.content)
 
-js = requests.get(base_url+"script.js").text
-
-
-f = open("html_code.txt", "w")
-f.write(html)
-
-f = open("css_code.txt", "w")
-f.write(css)
-
-f = open("js_code.txt", "w")
-f.write(js)
+print(response.choices[0].message.content)
